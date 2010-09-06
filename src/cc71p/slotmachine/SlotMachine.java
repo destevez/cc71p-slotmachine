@@ -14,24 +14,28 @@ public class SlotMachine {
 	public int credits;	
 	public boolean playing;
 	public Reel[] reels;
-	public PayTable payTable;
 	public CoinHopper coinHopper;
 	public BillAcceptor billAcceptor;
+	public Enclosure enclosure;
 	public InterfazHardware iH;
 	public InterfazUsuario iU;
 	public SlotMachine() {
+
+			
 		reels= new Reel[5];
 		for(int i=0;i<reels.length;i++){
 			reels[i]= new Reel();
 		}
-		payTable=new PayTable();
 		coinHopper=new CoinHopper();
 		billAcceptor=new BillAcceptor();
+		enclosure= new Enclosure();
 		credits=0;
-		playing=false;
+		playing=false;		
 		DialogBox dialogBox = new DialogBox();
-		iH = new InterfazHardware(this, dialogBox);
 		iU = new InterfazUsuario(this, dialogBox);
+		iH = new InterfazHardware(this, dialogBox);	
+		
+		
 	}
 	
 

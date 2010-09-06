@@ -2,6 +2,7 @@ package cc71p.slotmachine.face;
 
 import cc71p.slotmachine.BillAcceptor;
 import cc71p.slotmachine.CoinHopper;
+import cc71p.slotmachine.Enclosure;
 import cc71p.slotmachine.SlotMachine;
 
 /**
@@ -12,18 +13,21 @@ import cc71p.slotmachine.SlotMachine;
  *
  */
 public class InterfazHardware{
-	SlotMachine sM;
+	public SlotMachine sM;
 	BillAcceptor billAcceptor;
 	CoinHopper coinHopper;
 	DialogBox dialogBox;
+	Enclosure enclosure;
 	public InterfazHardware(SlotMachine sM, DialogBox dialogBox) {
 		this.sM = sM;
 		billAcceptor = sM.billAcceptor;
 		coinHopper=sM.coinHopper;
 		this.dialogBox = dialogBox;
+		this.enclosure=sM.enclosure;
 	}
-	public void fail(){
-		dialogBox.print("Falla de Hardware\n");
+	public void fail(String tipo){
+		dialogBox.print("Falla de Hardware: "
+				+tipo+"\n");
 	}
 	
 	/**

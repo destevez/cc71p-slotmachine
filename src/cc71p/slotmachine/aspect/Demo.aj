@@ -1,5 +1,7 @@
 package cc71p.slotmachine.aspect;
 
+import cc71p.slotmachine.BillAcceptor;
+import cc71p.slotmachine.CoinHopper;
 import cc71p.slotmachine.Reel;
 import cc71p.slotmachine.SlotMachine;
 import cc71p.slotmachine.face.InterfazHardware;
@@ -9,8 +11,10 @@ import cc71p.slotmachine.face.InterfazHardware;
  *
  */
 public aspect Demo {
-	
+	declare precedence:  Demo,TamperProof;
 	private InterfazHardware iH;
+	public SlotMachine sM;
+
 	
 	/**
 	 * Simula la impresión de texto en la UI independiente del aspecto Demo
@@ -40,6 +44,7 @@ public aspect Demo {
 	 */
 	after(SlotMachine sM) returning (InterfazHardware iH):
 		  args(sM, ..) && call(InterfazHardware+.new(..)) {
+			   this.sM=sM;
 		       this.iH = iH;
 		       this.iH.insert(creditos_a_simular);
 		       this.printUIDemo("Insertados "+creditos_a_simular+ " créditos");
@@ -77,28 +82,45 @@ public aspect Demo {
 	 * probabilidad de falla
 	 */
 	private double probabilidad_de_falla=1.0;
+		
 	/**
-	 * PointCut que captura los metodos de la clase Interfaz Hardware
-	 * 
-	 * @param iH objeto InterfazHardware para ser capturado en la ejecución de un metodo
+	 * Pointcuts que capturan ejecución dentro de clases de hardware
 	 */
-	pointcut IHMethod(InterfazHardware iH):
-		this(iH) && execution(* *(..)) &&
-		  !cflow(execution(void fail()));
-
+	pointcut bAMethod(BillAcceptor bA):
+		this(bA) && execution(* *(..));
+	pointcut cHMethod(CoinHopper o):
+		this(o) && execution(* *(..));
+	pointcut rMethod(Reel o):
+		this(o) && execution(* *(..));
 	/**
-	 * Advice que dada una probabilidad de falla establece si se ejecuta una falla (boton fail)
+	 * Advices que dada una probabilidad de falla establece si se ejecuta una falla (boton fail)
 	 * en la interfaz o no. No se establece consecuencia de falla por lo que no se realiza
 	 * nada más aparte de avisar la falla.
 	 * 
-	 * @param iH Interfaz de Hardware que se verifica
 	 */
-	before (InterfazHardware iH):IHMethod(iH){
-			double azar= Math.random();
-			if(probabilidad_de_falla>=azar){
-				printUIDemo("simulada falla de hardware");
-				iH.fail();
-			}
-	};	
-
+	before (BillAcceptor bA):
+		bAMethod(bA){
+		double azar= Math.random();
+		if(probabilidad_de_falla>=azar){
+			printUIDemo("simulada falla de hardware en bill acceptor");
+			this.iH.fail("falla simulada bill acceptor");
+		}
+	}
+	before (CoinHopper cH):
+		cHMethod(cH){
+		double azar= Math.random();
+		if(probabilidad_de_falla>=azar){
+			printUIDemo("simulada falla de hardware en coin hopper");
+			this.iH.fail("falla simulada coin hopper");
+		}
+	}
+	before (Reel reel):
+		rMethod(reel){
+		double azar= Math.random();
+		if(probabilidad_de_falla>=azar){
+			printUIDemo("simulada falla de hardware en reel");
+			this.iH.fail("falla simulada reel");
+		}
+	}
+	
 }

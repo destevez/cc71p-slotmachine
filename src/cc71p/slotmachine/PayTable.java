@@ -9,9 +9,8 @@ import java.util.Map;
  *
  */
 public class PayTable {
-	Map<String, Integer> table;
-	public PayTable() {
-		table = new HashMap<String, Integer>();
+	public static Map<String, Integer> table = new HashMap<String, Integer>();
+	static{
 		table.put("00000", 1);
 		table.put("11111", 2);
 		table.put("22222", 3);
@@ -22,9 +21,8 @@ public class PayTable {
 		table.put("77777", 20);
 		table.put("88888", 25);
 		table.put("99999", 100);
-		
 	}
-	public int payout(Reel[] reel){
+	public static int payout(Reel[] reel){
 		String aux="";
 		for(Reel r: reel){
 			aux+=r.value;

@@ -9,8 +9,9 @@ public class BillAcceptor {
 	public int inserted=0;
 	public int detect(){
 		int aux = inserted;
-		this.inserted=0;
+		this.inserted=0;		
 		return aux;
 	}
+	
 	
 }

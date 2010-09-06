@@ -1,5 +1,6 @@
 package cc71p.slotmachine.face;
 
+import cc71p.slotmachine.PayTable;
 import cc71p.slotmachine.RandomNumberGenerator;
 import cc71p.slotmachine.Reel;
 import cc71p.slotmachine.SlotMachine;
@@ -10,7 +11,7 @@ import cc71p.slotmachine.SlotMachine;
  *
  */
 public class InterfazUsuario{
-	SlotMachine sM;
+	public SlotMachine sM;
 	DialogBox dialogBox;
 	/**
 	 * canLock y canPlay definen si los botones Play y Locks 
@@ -46,7 +47,7 @@ public class InterfazUsuario{
 			r.spin(n);
 		}
 		sM.resultado(dialogBox);
-		int payout = sM.payTable.payout(sM.reels);
+		int payout = PayTable.payout(sM.reels);
 		dialogBox.print("PayOut: "+payout+"\n");
 		if(payout>0){
 			sM.coinHopper.payout(payout);
