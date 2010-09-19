@@ -5,11 +5,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import cc71p.slotmachine.BillAcceptor;
-import cc71p.slotmachine.CoinHopper;
-import cc71p.slotmachine.Game;
-import cc71p.slotmachine.Reel;
 import cc71p.slotmachine.face.InterfazUsuario;
+import cc71p.slotmachine.model.CoinHopper;
+import cc71p.slotmachine.model.Game;
+import cc71p.slotmachine.model.Reel;
 
 
 /**
@@ -49,19 +48,19 @@ public aspect Recall {
 	 * pointcut que describe un juego posible
 	 * @param iU
 	 */
-	pointcut juegoPosible(InterfazUsuario iU) : 
+	/*pointcut juegoPosible(InterfazUsuario iU) : 
 		this(iU)&&execution(* play(..))&&if(iU.canPlay);
 	/**
 	 * pointcut que describe el inicio de un juego
 	 * @param iU
 	 */
-	pointcut inicioDeJuego(InterfazUsuario iU):
+	/*pointcut inicioDeJuego(InterfazUsuario iU):
 		juegoPosible(iU)&& if(!iU.sM.playing);
 	/**
 	 * pointcut que describe un inicio de juego ya comenzado previamente
 	 * @param iU
 	 */
-	pointcut inicioDeJuegoJugando(InterfazUsuario iU):
+	/*pointcut inicioDeJuegoJugando(InterfazUsuario iU):
 		inicioDeJuego(iU)&& if(iU.sM.playing);
 	
 
@@ -71,7 +70,7 @@ public aspect Recall {
 	 * 
 	 * @param iU interfaz de usuario
 	 */
-	before(InterfazUsuario iU): inicioDeJuego(iU){
+	/*before(InterfazUsuario iU): inicioDeJuego(iU){
 		printUIRecall("Comienza captura . Iniciado juego.");
 		this.jugando=true;
 		Date fecha = Calendar.getInstance().getTime();
@@ -83,7 +82,7 @@ public aspect Recall {
 	 * advice que captura los inicios posteriores de juego
 	 * @param iU interfaz de usuario
 	 */
-	before(InterfazUsuario iU): inicioDeJuegoJugando(iU){
+	/*before(InterfazUsuario iU): inicioDeJuegoJugando(iU){
 		printUIRecall("Iniciado juego.");	
 		Date fecha = Calendar.getInstance().getTime();
 		games[indiceJuego].eventos.add(fecha);
@@ -94,7 +93,7 @@ public aspect Recall {
 	 * 
 	 * @param iU interfaz de usuario
 	 */
-	after(InterfazUsuario iU):juegoPosible(iU){
+	/*after(InterfazUsuario iU):juegoPosible(iU){
 		List<Reel> r = new ArrayList<Reel>();
 		for(Reel reel:iU.sM.reels){
 			r.add(reel);
@@ -104,12 +103,12 @@ public aspect Recall {
 		games[indiceJuego].resultados.put(fecha, r);
 		printUIRecall("Se termina juego.");	
 		
-	}
+	}*/
 	/**
 	 * advice que captura el momento en que un juego termina corriendo el indice de captura de juego
 	 * @param iU interfaz de usuario
 	 */
-	after(InterfazUsuario iU):inicioDeJuego(iU)&&if(iU.sM.credits<5){
+	/*after(InterfazUsuario iU):inicioDeJuego(iU)&&if(iU.sM.credits<5){
 		indiceJuego=(indiceJuego+1)%5;
 		printUIRecall("Termina captura...");
 	}
@@ -118,7 +117,7 @@ public aspect Recall {
 	 * @param iU interfaz de usuario
 	 * @param indexReel indice de reel que se congela
 	 */
-	before(InterfazUsuario iU, int indexReel): 
+	/*before(InterfazUsuario iU, int indexReel): 
 		this(iU)&&args(indexReel)&&execution(void lock(int))&&if(iU.canLock){
 		printUIRecall("Se presiona boton lock");
 		Date fecha = Calendar.getInstance().getTime();
@@ -130,7 +129,7 @@ public aspect Recall {
 	 * @param cH coin hopper
 	 * @param payout pago de la slot machine al usuario
 	 */
-	after(CoinHopper cH, int payout):this(cH)&&args(payout)&&execution(void payout(int)){
+	/*after(CoinHopper cH, int payout):this(cH)&&args(payout)&&execution(void payout(int)){
 		Date fecha = Calendar.getInstance().getTime();
 		games[indiceJuego].eventos.add(fecha);
 		games[indiceJuego].dineroRetirado.put(fecha, payout);		
@@ -140,13 +139,13 @@ public aspect Recall {
 	 * @param bA bill acceptor
 	 * @param amount cantidad de dinero ingresada
 	 */
-	after(BillAcceptor bA) returning(int amount):
+	/*after(BillAcceptor bA) returning(int amount):
 		this(bA)&&execution(int detect()) &&!cflow(execution(* Demo.*(..))){
 		if(games[indiceJuego]==null)
 			return;
 		Date fecha = Calendar.getInstance().getTime();
 		games[indiceJuego].eventos.add(fecha);
 		games[indiceJuego].dineroInsertado.put(fecha, amount);		
-	}
+	}*/
 	
 }

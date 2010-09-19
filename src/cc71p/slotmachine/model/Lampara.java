@@ -1,4 +1,4 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 /**
  * Representa la lampara de la slot machine
  * 

@@ -1,4 +1,6 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
+
+
 /**
  * Representa la enclosure de la slot machine
  * 
@@ -14,4 +16,5 @@ public Lampara lampara;
 		this.cerradura=Cerradura.INICIAL;
 		this.lampara=Lampara.APAGADA;
 	}
+	
 }

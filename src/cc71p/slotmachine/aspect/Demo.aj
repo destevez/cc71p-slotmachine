@@ -1,10 +1,8 @@
 package cc71p.slotmachine.aspect;
 
-import cc71p.slotmachine.BillAcceptor;
-import cc71p.slotmachine.CoinHopper;
-import cc71p.slotmachine.Reel;
-import cc71p.slotmachine.SlotMachine;
 import cc71p.slotmachine.face.InterfazHardware;
+import cc71p.slotmachine.model.CoinHopper;
+import cc71p.slotmachine.model.Reel;
 /**
  * Aspecto Demo utilizado para simular acciones durante la ejecución de la SlotMachine
  * @author daniel
@@ -42,13 +40,13 @@ public aspect Demo {
 	 * @param sM slot machine que crea interfaz de hardware
 	 * @param iH interfaz de hardware
 	 */
-	after(SlotMachine sM) returning (InterfazHardware iH):
+	/*after(SlotMachine sM) returning (InterfazHardware iH):
 		  args(sM, ..) && call(InterfazHardware+.new(..)) {
 			   this.sM=sM;
 		       this.iH = iH;
 		       this.iH.insert(creditos_a_simular);
 		       this.printUIDemo("Insertados "+creditos_a_simular+ " créditos");
-	}
+	}*/
 	/**
 	 * Preestablecer resultados del juego
 	 * 
@@ -63,7 +61,7 @@ public aspect Demo {
 	 * @param reel Reel que se gira
 	 * @param value valor original que iba a tener debido al giro
 	 */
-	void around (Reel reel, int value):
+	/*void around (Reel reel, int value):
 		 call (void Reel.spin(int))
 		  && target(reel) && args (value) {
 			boolean vA= reel.locked;
@@ -75,7 +73,7 @@ public aspect Demo {
 				indiceReel=0;
 			reel.value=spin;
 		return;
-	};
+	};*/
 	/**
 	 * Simular fallas de hardware
 	 * 
@@ -86,19 +84,19 @@ public aspect Demo {
 	/**
 	 * Pointcuts que capturan ejecución dentro de clases de hardware
 	 */
-	pointcut bAMethod(BillAcceptor bA):
+	/*pointcut bAMethod(BillAcceptor bA):
 		this(bA) && execution(* *(..));
 	pointcut cHMethod(CoinHopper o):
 		this(o) && execution(* *(..));
 	pointcut rMethod(Reel o):
-		this(o) && execution(* *(..));
+		this(o) && execution(* *(..));*/
 	/**
 	 * Advices que dada una probabilidad de falla establece si se ejecuta una falla (boton fail)
 	 * en la interfaz o no. No se establece consecuencia de falla por lo que no se realiza
 	 * nada más aparte de avisar la falla.
 	 * 
 	 */
-	before (BillAcceptor bA):
+	/*before (BillAcceptor bA):
 		bAMethod(bA){
 		double azar= Math.random();
 		if(probabilidad_de_falla>=azar){
@@ -121,6 +119,6 @@ public aspect Demo {
 			printUIDemo("simulada falla de hardware en reel");
 			this.iH.fail("falla simulada reel");
 		}
-	}
+	}*/
 	
 }

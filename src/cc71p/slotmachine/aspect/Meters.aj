@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import cc71p.slotmachine.BillAcceptor;
-import cc71p.slotmachine.CoinHopper;
-import cc71p.slotmachine.PayTable;
-import cc71p.slotmachine.Reel;
 import cc71p.slotmachine.face.InterfazHardware;
 import cc71p.slotmachine.face.InterfazUsuario;
+import cc71p.slotmachine.model.BillAcceptor;
+import cc71p.slotmachine.model.CoinHopper;
+import cc71p.slotmachine.model.PayTable;
+import cc71p.slotmachine.model.Reel;
 /**
  * Aspecto que se encarga de llevar los meters del juego, cuenta con su propia UI definida en el método
  * printUIMeters(String)
@@ -26,7 +26,7 @@ public aspect Meters {
 	 * 
 	 * @param s texto a imprimir
 	 */
-	private void printUIMeters(){
+	/*private void printUIMeters(){
 		System.out.println("++++++++++++METERS+++++++++++++++++");
 		System.out.println("    Total dinero ingresado desde encendido              : "+totalDineroInsertado);
 		System.out.println("    Total dinero pagado desde encendido                 : "+totalDineroPagado);
@@ -37,13 +37,13 @@ public aspect Meters {
 		System.out.println("   *******************************ULTIMO JUEGO****************************");
 		System.out.println("             Fecha y hora               : "+fechaHoraUltimoJuego);
 		int cantidadReelCongelados=0,i=0;
-		for (Reel reel:ultimoJuego){
+		/*for (Reel reel:ultimoJuego){
 			if(reel.locked==true)
 				cantidadReelCongelados++;
 		System.out.println("             Reel [numero,resultado]      : ["+i+","+reel.value+"]");
 			i++;
-		}
-		System.out.println("             Cantidad de reels congelados : "+cantidadReelCongelados);
+		}*/
+		/*System.out.println("             Cantidad de reels congelados : "+cantidadReelCongelados);
 		System.out.println("             Valor ganado                 : "+ultimoValorGanado);
 		
 		System.out.println("   ***********************************************************************");
@@ -77,7 +77,7 @@ public aspect Meters {
 	 * @param bA Bill acceptor que captura dinero
 	 * @param iH interfaz de hardware
 	 */
-	after(BillAcceptor bA) returning (int amount): call (int BillAcceptor.detect())
+	/*after(BillAcceptor bA) returning (int amount): call (int BillAcceptor.detect())
 		  && target(bA){
 		       this.fechaHoraUltimoMontoDineroInsertado=Calendar.getInstance().getTime();
 		       this.ultimoMontoDineroInsertado=amount;
@@ -92,7 +92,7 @@ public aspect Meters {
 	 * @param cH Coin hopper que hace payout
 	 * @param amount cantidad de payout
 	 */
-	after(CoinHopper cH, int amount): call (void CoinHopper.payout(int))
+	/*after(CoinHopper cH, int amount): call (void CoinHopper.payout(int))
 		  && target(cH)&&args(amount){
 		       this.fechaHoraUltimoPayOut=Calendar.getInstance().getTime();
 		       this.ultimoPayOut=amount;
@@ -104,7 +104,7 @@ public aspect Meters {
 	 * 
 	 * @param iU Interfaz de Usuario
 	 */
-	after(InterfazUsuario iU): target(iU) &&call(void InterfazUsuario.play()) &&if(iU.canPlay){
+	/*after(InterfazUsuario iU): target(iU) &&call(void InterfazUsuario.play()) &&if(iU.canPlay){
 		this.fechaHoraUltimoJuego=Calendar.getInstance().getTime();
 		Reel[] reels = iU.sM.reels;
 		this.ultimoJuego.clear();
@@ -113,18 +113,18 @@ public aspect Meters {
 		}
 		this.ultimoValorGanado=PayTable.payout(reels);
 		this.printUIMeters();
-	}
+	}*/
 	/**
 	 * Advice que se encarga de contabilizar los errores ocurridos desde el encendido
 	 * @param iH interfaz de hardware
 	 * @param tipo tipo de error
 	 */
-	after(InterfazHardware iH, String tipo): call(void InterfazHardware.fail(String)) 
+	/*after(InterfazHardware iH, String tipo): call(void InterfazHardware.fail(String)) 
 	&&target(iH) &&args(tipo){
 		this.fechaUltimoError.add(Calendar.getInstance().getTime());
 		this.tipoUltimoError.add(tipo);
 		this.printUIMeters();
-	}
+	}/*/
 	
 	
 	

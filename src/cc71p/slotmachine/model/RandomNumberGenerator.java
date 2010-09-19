@@ -1,4 +1,4 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 /**
  * Contiene los métodos para generar números aleatorios
  * 
@@ -7,13 +7,4 @@ package cc71p.slotmachine;
  */
 public class RandomNumberGenerator {
 	public static int nextRandom(){return (int)(9.5*Math.random());}
-		
-	public static void main(String[] args) {
-		
-		int i =0;
-		while(i<100){
-			System.out.println(RandomNumberGenerator.nextRandom());
-			i++;
-		}
-	}
 }

@@ -1,4 +1,4 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 /**
  * Representa la interfaz fisica por donde sale el dinero ganado
  * 
@@ -6,9 +6,7 @@ package cc71p.slotmachine;
  *
  */
 public class CoinHopper {
-	public int totalAmount;
 	public void payout(int amount){
-		this.totalAmount+=amount;
 	}
 	
 }

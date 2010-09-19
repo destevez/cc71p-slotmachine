@@ -1,4 +1,4 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 /**
  * Representa la interfaz por donde se ingresa dinero a la Slot Machine
  * 

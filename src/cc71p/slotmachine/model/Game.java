@@ -1,4 +1,4 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Representa un juego en la Slot Machine
  * 
- * Esta clase se utiliza con el aspecto Recalla fin de recordar los ultimos 5 juegos de la slot machine
+ * Esta clase se utiliza con el aspecto Recall a fin de recordar los ultimos 5 juegos de la slot machine
  * 
  * @author daniel
  *

@@ -1,7 +1,8 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Contiene las tablas de premios con su combinación necesaria
  * 
@@ -21,6 +22,17 @@ public class PayTable {
 		table.put("77777", 20);
 		table.put("88888", 25);
 		table.put("99999", 100);
+		
+		table.put("00", 1);
+		table.put("11", 2);
+		table.put("22", 3);
+		table.put("33", 4);
+		table.put("44", 5);
+		table.put("55", 10);
+		table.put("66", 15);
+		table.put("77", 20);
+		table.put("88", 25);
+		table.put("99", 100);
 	}
 	public static int payout(Reel[] reel){
 		String aux="";

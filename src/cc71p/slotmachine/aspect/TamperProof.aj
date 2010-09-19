@@ -1,12 +1,9 @@
 package cc71p.slotmachine.aspect;
 
-import cc71p.slotmachine.BillAcceptor;
-import cc71p.slotmachine.Cerradura;
-import cc71p.slotmachine.CoinHopper;
-import cc71p.slotmachine.Enclosure;
-import cc71p.slotmachine.Lampara;
-import cc71p.slotmachine.SlotMachine;
 import cc71p.slotmachine.face.InterfazHardware;
+import cc71p.slotmachine.model.CoinHopper;
+import cc71p.slotmachine.model.Enclosure;
+import cc71p.slotmachine.model.Lampara;
 
 
 public aspect TamperProof {	
@@ -40,7 +37,7 @@ public aspect TamperProof {
 	 * @param sM slot machine que crea slot machine
 	 * @param e Enclosure de la slot machine
 	 */
-	before(SlotMachine sM) :this(sM)&&execution(SlotMachine+.new(..)) {
+	/*before(SlotMachine sM) :this(sM)&&execution(SlotMachine+.new(..)) {
 		       this.sM = sM;
 		       this.printUITamperProof("Capturada Slot Machine en aspecto");
 	}
@@ -52,7 +49,7 @@ public aspect TamperProof {
 	 * 
 	 * @param e enclosure abierto
 	 */
-	after(Enclosure e):target(e)&&set(boolean Enclosure.open)&&if(e.open){
+	/*after(Enclosure e):target(e)&&set(boolean Enclosure.open)&&if(e.open){
 		if(this.juegoDetenido)
 			return;
 		this.printUITamperProof("Abierto enclosure. Se detiene el juego");
@@ -67,7 +64,7 @@ public aspect TamperProof {
 	 * 
 	 * @param e Enclosure que se cierra
 	 */
-	after(Enclosure e):target(e)&&set(Cerradura Enclosure.cerradura)&&if(!e.open&&e.cerradura==Cerradura.TODO_BIEN)
+	/*after(Enclosure e):target(e)&&set(Cerradura Enclosure.cerradura)&&if(!e.open&&e.cerradura==Cerradura.TODO_BIEN)
 		{
 			if(!this.juegoDetenido||!this.cerraduraEnInicial)
 				return;
@@ -75,7 +72,7 @@ public aspect TamperProof {
 			/**
 			 * Se restaura el juego y continua
 			 */
-			this.sM.iU.canLock=this.canLock;
+			/*this.sM.iU.canLock=this.canLock;
 			this.sM.iU.canPlay=this.canPlay;
 			this.juegoDetenido=false;
 			e.lampara=Lampara.APAGADA;
@@ -88,7 +85,7 @@ public aspect TamperProof {
 	 * 
 	 * @param e Enclosure que se cierra
 	 */
-	after(Enclosure e):target(e)&&set(Cerradura Enclosure.cerradura)&&if(!e.open&&e.cerradura==Cerradura.PAYBACK)
+	/*after(Enclosure e):target(e)&&set(Cerradura Enclosure.cerradura)&&if(!e.open&&e.cerradura==Cerradura.PAYBACK)
 		{
 			if(!this.juegoDetenido||!this.cerraduraEnInicial)
 				return;
@@ -96,7 +93,7 @@ public aspect TamperProof {
 			/**
 			 * Se finaliza juego y se entregan credits
 			 */
-			this.sM.iU.canLock=false;
+			/*this.sM.iU.canLock=false;
 			this.sM.iU.canPlay=true;
 			this.juegoDetenido=false;
 			this.sM.coinHopper.payout(sM.credits);
@@ -108,7 +105,7 @@ public aspect TamperProof {
 	 * Pointcut que captura llamadas a métodos de bill acceptor
 	 * @param bA bill acceptor
 	 */	
-	pointcut billAcceptorMethod(BillAcceptor bA):
+	/*pointcut billAcceptorMethod(BillAcceptor bA):
 		target(bA)&& call(* BillAcceptor.*(..));
 	/**
 	 * Pointcut que captura llamadas a métodos de coin hopper
@@ -127,7 +124,7 @@ public aspect TamperProof {
 	 * Advice que detiene juego en caso de haber falla en bill acceptor
 	 * @param bA bill acceptor
 	 */
-	before(BillAcceptor bA,InterfazHardware iH): 
+	/*before(BillAcceptor bA,InterfazHardware iH): 
 				cflow(billAcceptorMethod(bA))&&iHFail(iH){	
 		if(this.juegoDetenido)
 			return;
@@ -141,7 +138,7 @@ public aspect TamperProof {
 	 * Advice que detiene juego en caso de haber falla en coin hopper
 	 * @param cH coin hopper
 	 */
-	before(CoinHopper cH,InterfazHardware iH): 
+	/*before(CoinHopper cH,InterfazHardware iH): 
 				cflow(coinHopperMethod(cH))&&iHFail(iH){		
 		if(this.juegoDetenido)
 			return;
@@ -154,7 +151,7 @@ public aspect TamperProof {
 	 * 
 	 * @param e Enclosure del cual se captura posicion de cerradura
 	 */
-	before(Enclosure e):target(e)&&set(Cerradura Enclosure.cerradura)
+	/*before(Enclosure e):target(e)&&set(Cerradura Enclosure.cerradura)
 		{
 			if(e.cerradura==Cerradura.INICIAL)
 				this.cerraduraEnInicial=true;
@@ -169,13 +166,13 @@ public aspect TamperProof {
 		/**
 		 * Almacena los valores previos y detiene el juego
 		 */
-		this.canLock=this.sM.iU.canLock;
+		/*this.canLock=this.sM.iU.canLock;
 		this.canPlay=this.sM.iU.canPlay;
 		this.sM.iU.canLock=false;
 		this.sM.iU.canPlay=false;
 		this.sM.enclosure.lampara=Lampara.ENCENDIDA;
 		this.juegoDetenido=true;
-	}
+	}*/
 	
 	
 	

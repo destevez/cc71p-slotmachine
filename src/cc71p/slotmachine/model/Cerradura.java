@@ -1,4 +1,4 @@
-package cc71p.slotmachine;
+package cc71p.slotmachine.model;
 /**
  * Representa la cerradura (llave) de la enclosure
  * @author daniel
