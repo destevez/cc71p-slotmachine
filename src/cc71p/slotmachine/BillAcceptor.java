@@ -6,11 +6,8 @@ package cc71p.slotmachine;
  *
  */
 public class BillAcceptor {
-	public int inserted=0;
 	public int detect(){
-		int aux = inserted;
-		this.inserted=0;		
-		return aux;
+		return 0;
 	}
 	
 	

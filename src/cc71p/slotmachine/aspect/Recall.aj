@@ -109,7 +109,7 @@ public aspect Recall {
 	 * advice que captura el momento en que un juego termina corriendo el indice de captura de juego
 	 * @param iU interfaz de usuario
 	 */
-	after(InterfazUsuario iU):inicioDeJuego(iU){
+	after(InterfazUsuario iU):inicioDeJuego(iU)&&if(iU.sM.credits<5){
 		indiceJuego=(indiceJuego+1)%5;
 		printUIRecall("Termina captura...");
 	}
