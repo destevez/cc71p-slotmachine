@@ -13,4 +13,6 @@ Requiere de librerias de SWT de eclipse http://www.eclipse.org/swt/ (swt.jar)
 
 En scripts runserver.sh y runclient.sh modificar CLASSPATH que apunte además a libreria
 de SWT
- 
+
+
+Este proyecto se puede clonar desde git@github.com:destevez/cc71p-slotmachine.git
