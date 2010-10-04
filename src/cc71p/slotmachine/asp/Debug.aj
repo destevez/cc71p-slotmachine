@@ -1,4 +1,4 @@
-package cc71p.slotmachine.aspect;
+package cc71p.slotmachine.asp;
 
 import cc71p.slotmachine.face.InterfazHardware;
 import cc71p.slotmachine.face.UIDebug;
@@ -27,7 +27,8 @@ public aspect Debug {
 		args(s)&&call(void InterfazHardware.printDialogBox(String))
 	&&cflow(call(void InterfazHardware.fail()))
 	{
-		ui.printDialogBox(s);	 		
+		if(ui!=null)
+			ui.printDialogBox(s);	 		
 	};
 
 

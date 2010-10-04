@@ -19,20 +19,23 @@ import org.eclipse.swt.widgets.Text;
  * @author daniel
  *
  */
-public class InterfazHardware{
+public class InterfazHardware{	
 	Text dialogBox;
 	Display display;
-	private int buttonWidth=150, buttonHeight=100, dialogWidth=600,dialogHeight=600;
+	public Button insert,get,fail,demo;
+	public Spinner textInsert;
+	private int buttonWidth=150, buttonHeight=100, dialogWidth=800,dialogHeight=600;
 	public Label labelCH;
 	public InterfazHardware(Shell shell) {
 		shell.setText("Interfaz de Hardware");
 		display=shell.getDisplay();
 		int x=0,y=0;
 		shell.setSize(dialogWidth, dialogHeight+buttonHeight);	
-		final Spinner textInsert = new Spinner(shell, SWT.BORDER);
+		textInsert = new Spinner(shell, SWT.BORDER);
 		textInsert.setSize(buttonWidth, 25);
-		textInsert.setLocation(x, y+buttonHeight-25);		
-		final Button insert = new Button(shell, SWT.PUSH);
+		textInsert.setLocation(x, y+buttonHeight-25);
+		textInsert.setMaximum(1000);
+		insert = new Button(shell, SWT.PUSH);
 		insert.setSize(buttonWidth, buttonHeight-25);
 		insert.setText("Insert Credits");
 		insert.setLocation(x, y);
@@ -53,7 +56,7 @@ public class InterfazHardware{
 		labelCH.setSize(buttonWidth, 25);
 		labelCH.setLocation(x, y+buttonHeight-25);
 		labelCH.setText(0+"");
-		final Button get = new Button(shell, SWT.PUSH);
+		get = new Button(shell, SWT.PUSH);
 		get.setSize(buttonWidth, buttonHeight-25);
 		get.setText("Get Credits");
 		get.setLocation(x, y);
@@ -68,7 +71,7 @@ public class InterfazHardware{
 		};
 		get.addListener(SWT.Selection, listenerGet);
 		
-		final Button fail = new Button(shell, SWT.PUSH);
+		fail = new Button(shell, SWT.PUSH);
 		fail.setSize(buttonWidth, buttonHeight);
 		fail.setLocation(x, y);		
 		fail.setText("FAIL!");
@@ -77,11 +80,27 @@ public class InterfazHardware{
 			
 			@Override
 			public void handleEvent(Event event) {
-				fail();
+				fail("Simulada en boton");
 				
 			}
 		};
 		fail.addListener(SWT.Selection, listenerFail);
+		
+		demo = new Button(shell, SWT.PUSH);
+		demo.setSize(buttonWidth, buttonHeight);
+		demo.setLocation(x, y);		
+		demo.setText("DEMO");
+		x+=buttonWidth;
+		final Listener listenerDemo = new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				demo();
+				
+			}
+		};
+		demo.addListener(SWT.Selection, listenerDemo);
+		
 		x=0;y+=buttonHeight;
 		dialogBox = new Text(shell, SWT.MULTI|SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		dialogBox.setSize(dialogWidth-20, dialogHeight-40);
@@ -98,6 +117,19 @@ public class InterfazHardware{
 	 */
 	public void fail(){
 		//printDialogBox("Error de Hardware!");
+	}
+	
+	public void fail(String s){
+		//printDialogBox("Error de Hardware!");
+	}
+	/**
+	 * 
+	 * Activa o desactiva el modo demo
+	 *
+	 * 21-09-2010 - (Daniel Estévez G.) - versión inicial
+	 *
+	 */
+	public void demo(){
 	}
 	
 	/**

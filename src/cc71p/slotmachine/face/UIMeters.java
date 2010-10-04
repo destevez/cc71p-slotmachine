@@ -7,12 +7,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class UIDebug {
+public class UIMeters {
 	Text dialogBox;
 	Display display;
 	private int dialogWidth=800,dialogHeight=600;	
-	public UIDebug(Shell shell) {
-		shell.setText("Debug UI");
+	public UIMeters(Shell shell) {
+		shell.setText("Meters UI");
 		display=shell.getDisplay();
 		int x=0,y=0;
 		shell.setSize(dialogWidth, dialogHeight);	

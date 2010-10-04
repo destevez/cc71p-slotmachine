@@ -10,49 +10,73 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class UIDemo {
+public class UIRecall {
 	Text dialogBox;
 	Display display;
-	public Button interrumpir,continuar;
-	private int buttonWidth=150, buttonHeight=100, dialogWidth=900,dialogHeight=600;	
-	public UIDemo(Shell shell) {
-		shell.setText("Demo UI");
+	public Button iniciarRepeticion,avanzar;
+	private int buttonWidth=150, buttonHeight=100, dialogWidth=900,dialogHeight=600;
+	
+	public UIRecall(Shell shell) {
+		shell.setText("Recall");
 		display=shell.getDisplay();
 		int x=0,y=0;
 		shell.setSize(dialogWidth, dialogHeight+buttonHeight);
 		x+=buttonWidth;
-		interrumpir = new Button(shell, SWT.PUSH);
-		interrumpir.setSize(buttonWidth, buttonHeight);
-		interrumpir.setText("Interrumpir");
-		interrumpir.setLocation(x, y);
+		iniciarRepeticion = new Button(shell, SWT.PUSH);
+		iniciarRepeticion.setSize(buttonWidth, buttonHeight);
+		iniciarRepeticion.setText("Iniciar Repetición");
+		iniciarRepeticion.setLocation(x, y);
 		x+=buttonWidth;
-		final Listener listenerInterrumpir = new Listener() {			
+		final Listener listenerRepeticion = new Listener() {			
 			@Override
 			public void handleEvent(Event event) {
-				interrumpir();						
+				comenzarRepeticion();						
 			}
 		};
-		interrumpir.addListener(SWT.Selection, listenerInterrumpir);
-		continuar = new Button(shell, SWT.PUSH);
-		continuar.setSize(buttonWidth, buttonHeight);
-		continuar.setText("Continuar");
-		continuar.setLocation(x, y);
+		iniciarRepeticion.addListener(SWT.Selection, listenerRepeticion);
+		avanzar = new Button(shell, SWT.PUSH);
+		avanzar.setSize(buttonWidth, buttonHeight);
+		avanzar.setText("Avanzar");
+		avanzar.setLocation(x, y);
 		x+=buttonWidth;
-		final Listener listenerContinuar = new Listener() {
+		final Listener listenerAvanzar = new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
-				continuar();
+				avanzar();
 				
 			}
 		};
-		continuar.addListener(SWT.Selection, listenerContinuar);		
+		avanzar.addListener(SWT.Selection, listenerAvanzar);		
 		x=0;y+=buttonHeight;
 		dialogBox = new Text(shell, SWT.MULTI|SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		dialogBox.setSize(dialogWidth-20, dialogHeight-40);
 		dialogBox.setLocation(x, y);
 		
-	}	
+	}
+	
+	/**
+	 * 
+	 * Enciende Lampara de Enclosure
+	 *
+	 * 18-09-2010 - (Daniel Estévez G.) - versión inicial
+	 *
+	 */
+	public void comenzarRepeticion(){
+		
+	}
+	/**
+	 * 
+	 * Apaga Lampara de enclosure
+	 *
+	 * 21-09-2010 - (Daniel Estévez G.) - versión inicial
+	 *
+	 */
+	public void avanzar(){
+		
+	}
+	
+	
 	/**
 	 * 
 	 * Imprime en la dialog box un mensaje manteniendo los mensajes anteriores
@@ -73,13 +97,6 @@ public class UIDemo {
 			};
 		};
 		display.asyncExec(t);
-		
-	}
-	
-	void continuar(){
-		
-	}
-	void interrumpir(){
 		
 	}
 }

@@ -1,24 +1,39 @@
-package cc71p.slotmachine.aspect;
+package cc71p.slotmachine.asp;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import cc71p.slotmachine.face.InterfazHardware;
 import cc71p.slotmachine.face.InterfazUsuario;
+import cc71p.slotmachine.face.Logging;
 import cc71p.slotmachine.face.UIDebug;
 import cc71p.slotmachine.face.UIDemo;
+import cc71p.slotmachine.face.UIEnclosure;
+import cc71p.slotmachine.face.UIMeters;
+import cc71p.slotmachine.face.UIRecall;
 import cc71p.slotmachine.model.BillAcceptor;
 import cc71p.slotmachine.model.CoinHopper;
 import cc71p.slotmachine.model.Enclosure;
+import cc71p.slotmachine.model.NVRAM;
 import cc71p.slotmachine.model.PayTable;
 import cc71p.slotmachine.model.RandomNumberGenerator;
 import cc71p.slotmachine.model.Reel;
-
-public aspect SlotMachine {
+/**
+ * 
+ * <b>Aspecto y main de Slot Machine</b>
+ * 
+ *
+ * 03-10-2010 - (Daniel Estévez G.): versión inicial  
+ *
+ */
+public aspect SlotMachine{
+	declare precedence: Demo,SlotMachine;	
+	
+	public boolean DEMO, maquinaEncendida;
 	public int credits;	
-	public int MIN_CREDITS=5;
-	boolean DEMO=false;
-	static int reelAmount=2;
+	public int MIN_CREDITS;
+	
+	public int reelAmount;
 	boolean playing;
 	boolean playSecondTime;
 	int creditsInserted;
@@ -32,8 +47,14 @@ public aspect SlotMachine {
 	InterfazUsuario iU;
 	UIDemo demoUI;
 	UIDebug debugUI;
+	UIMeters metersUI;
+	UIEnclosure enclosureUI;
+	UIRecall recallUI;
+	Logging loggingUI;
 	Display display;
-		
+	NVRAM nvram;
+	Shell shelliH,shelliU,shellDebug,shellMeters,
+	shellEnclosure,shellRecall,shellDemo,shellLogging;
 	public static void main(String[] args) {
 	}
 	/**
@@ -44,6 +65,9 @@ public aspect SlotMachine {
 	 *
 	 */	
 	void around():execution(void SlotMachine.main(..)){
+		nvram=new NVRAM();
+		MIN_CREDITS=5;
+		reelAmount=5;
 		/**
 		 * inicializa el "hardware"
 		 */		
@@ -65,11 +89,11 @@ public aspect SlotMachine {
 		/**
 		 * Se inicializan las interfaces
 		 */		
-		Shell shelliH = new Shell(display);				
-		Shell shelliU = new Shell(display);
-				
+		shelliH = new Shell(display);				
+		shelliU = new Shell(display);	
 		iH = new InterfazHardware(shelliH);
 		iU = new InterfazUsuario(shelliU,reelAmount);
+		
 		//Bloquea botones
 		for(Button b:iU.buttons){
 			b.setEnabled(false);
@@ -77,21 +101,54 @@ public aspect SlotMachine {
 		iU.buttonPlay.setEnabled(false);
 		iH.printDialogBox("Se enciende la máquina...");
 		
-		//Se inicializa UI de aspecto Demo
-		Shell shellDemo = new Shell(display);
-		demoUI = new UIDemo(shellDemo);
+		
 		//Se inicializa UI de aspecto Debug
-		Shell shellDebug = new Shell(display);
+		shellDebug = new Shell(display);
 		debugUI = new UIDebug(shellDebug);
 		
+		//Se inicializa UI de Meters
+		shellMeters = new Shell(display);
+		metersUI = new UIMeters(shellMeters);
+		
+		//Se inicializa UI de Enclosure
+		shellEnclosure = new Shell(display);
+		enclosureUI = new UIEnclosure(shellEnclosure, enclosure);
+		
+		//Se inicializa UI de recall
+		shellRecall = new Shell(display);
+		recallUI = new UIRecall(shellRecall);
+		
+		//Se inicializa UI de logging
+		shellLogging = new Shell(display);
+		loggingUI = new Logging(shellLogging,true);
+		
+		//Se inicializa UI de aspecto Demo
+		shellDemo = new Shell(display);
+		demoUI = new UIDemo(shellDemo);
+		
+		shellMeters.open();
 		shellDebug.open();
 		shellDemo.open();
 		shelliH.open ();
 		shelliU.open ();
-		while (!shelliH.isDisposed ()&&!shelliU.isDisposed ()) {
+		shellEnclosure.open();
+		shellRecall.open();
+		shellLogging.open();
+		credits=0;
+		DEMO=false;
+		
+		System.out.println("Encendida Máquina");
+		maquinaEncendida=true;
+		while (!shelliH.isDisposed ()&&!shelliU.isDisposed ()
+				&&!shellDebug.isDisposed ()&&!shellDemo.isDisposed ()
+				&&!shellMeters.isDisposed()&&!shellEnclosure.isDisposed()
+				&&!shellRecall.isDisposed()&&!shellLogging.isDisposed()
+				) {
 			if (!display.readAndDispatch ()) display.sleep ();
 		}
-		display.dispose ();		
+		display.dispose ();	
+		System.out.println("Apagada Máquina");
+		maquinaEncendida=false;
 	}
 	
 	
@@ -146,7 +203,8 @@ public aspect SlotMachine {
 				for(Button b:iU.buttons)
 					b.setEnabled(true);
 			}	
-		}			
+		}
+		proceed();
 	}
 	
 	/**
@@ -154,7 +212,7 @@ public aspect SlotMachine {
 	 * realizado juego o se inserten o utilicen creditos
 	 */
 	after():set(int SlotMachine.credits){
-		if((credits>=5||playSecondTime)&&!playing)
+		if((credits>=5||playSecondTime)&&!playing&&!DEMO)
 			iU.buttonPlay.setEnabled(true);
 		else
 			iU.buttonPlay.setEnabled(false);
@@ -173,7 +231,7 @@ public aspect SlotMachine {
 	 */	
 	after():call(void InterfazUsuario.play(..)){
 		playing=false;
-		if(credits>=5||playSecondTime)
+		if((credits>=5||playSecondTime)&&!DEMO)
 			iU.buttonPlay.setEnabled(true);
 		else
 			iU.buttonPlay.setEnabled(false);
@@ -189,6 +247,7 @@ public aspect SlotMachine {
 	void around(int amount):call(void InterfazHardware.insert(int))&&args(amount){
 		iH.printDialogBox("Se insertan "+amount+" créditos");
 		creditsInserted=amount;
+		proceed(amount);
 	}
 	/**
 	 * Advice que implementa método de deteccion de creditos insertados
@@ -223,7 +282,7 @@ public aspect SlotMachine {
 	/**
 	 * Advice que avisa de fallo de hardware si se presiona boton de fail
 	 */
-	before():call(void InterfazHardware.fail()){
+	before():call(void InterfazHardware.fail(..)){
 		iH.printDialogBox("Error de Hardware!");
 	}
 	
@@ -246,5 +305,36 @@ public aspect SlotMachine {
 	void around():call(void InterfazHardware.get()){
 		iH.printDialogBox("Se retiran "+iH.labelCH.getText()+" créditos");
 		iH.labelCH.setText("0");
+		proceed();
+	}
+	
+	/**
+	 * Advice que implementa boton demo en interfaz de hardware
+	 * 
+	 */
+	void around():call(void InterfazHardware.demo()){
+		if(DEMO){
+			iH.printDialogBox("Se desactiva DEMO");
+			DEMO=false;
+		}
+		else{
+			iH.printDialogBox("Se activa DEMO");
+			DEMO=true;
+		}
+		proceed();
+	}
+	
+	
+	/** 
+	 * Advice que captura la interfaz de hardware
+	 */
+	after(InterfazHardware iH):target(iH)&&execution(InterfazHardware+.new(..)){
+		this.iH=iH;
+	}
+	/** 
+	 * Advice que captura la interfaz de usuario
+	 */
+	after(InterfazUsuario iU):target(iU)&&execution(InterfazUsuario+.new(..)){
+		this.iU=iU;
 	}
 }

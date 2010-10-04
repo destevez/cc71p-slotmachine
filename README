@@ -1,0 +1,16 @@
+CC71P - Objetos y Aspectos
+
+Proyecto semestral SlotMachine
+
+Profesor: Johan Fabry
+
+Alumno: Daniel Estévez G.
+
+
+Implementado en Debian sid GNU/Linux kernel 2.6.32-5-686
+
+Requiere de librerias de SWT de eclipse http://www.eclipse.org/swt/ (swt.jar)
+
+En scripts runserver.sh y runclient.sh modificar CLASSPATH que apunte además a libreria
+de SWT
+ 

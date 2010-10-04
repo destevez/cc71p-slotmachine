@@ -50,7 +50,7 @@ public class InterfazUsuario{
 		final Listener listener = new Listener() {			
 			@Override
 			public void handleEvent(Event event) {
-				play();				
+				play();
 			}
 		};
 		buttonPlay.addListener(SWT.Selection, listener);		

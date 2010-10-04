@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import cc71p.slotmachine.aspect.SlotMachine;
+import cc71p.slotmachine.asp.SlotMachine;
 import cc71p.slotmachine.face.InterfazHardware;
 import cc71p.slotmachine.face.InterfazUsuario;
 import cc71p.slotmachine.model.Reel;
